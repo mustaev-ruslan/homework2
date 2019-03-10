@@ -12,14 +12,16 @@ import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.domain.Book;
 import ru.aaxee.homework2.domain.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.ImmutableMap.of;
 import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 
 @RequiredArgsConstructor
 @Repository

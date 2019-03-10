@@ -1,8 +1,10 @@
 package ru.aaxee.homework2.collections;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import static java.util.Collections.*;
+import static java.util.Collections.singleton;
 
 
 public class MathSet<E> {
