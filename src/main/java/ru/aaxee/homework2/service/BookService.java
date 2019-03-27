@@ -10,6 +10,8 @@ import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.BookRepository;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
@@ -23,10 +25,6 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    private final AuthorService authorService;
-
-    private final GenreService genreService;
-
     public Book add(String name, String authorsStringList, String genresStringList) throws LibraryException {
         if (name == null) {
             throw new LibraryException("Name of book is required");
@@ -35,17 +33,12 @@ public class BookService {
         if (existingBook.isPresent()) {
             throw new LibraryException("Book with name " + name + " already exist");
         }
-        Book blankBook = bookRepository.addBook(name);
-        Long bookId = blankBook.getId();
-
-        addAuthors(bookId, authorsStringList);
-        addGenres(bookId, genresStringList);
-
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (!optionalBook.isPresent()) {
-            throw new LibraryException("Fail to add " + name);
-        }
-        return optionalBook.get();
+        Book book = new Book();
+        book.setName(name);
+        setAuthorsFromString(book, authorsStringList);
+        setGenresFromString(book, genresStringList);
+        bookRepository.addBook(book);
+        return book;
     }
 
     public List<Book> find(Long id, String name, String author, String genre) {
@@ -96,11 +89,13 @@ public class BookService {
         if (!optionalExistingBook.isPresent()) {
             throw new LibraryException("Book with id " + bookId + " not exist");
         }
-        Book existingBook = optionalExistingBook.get();
-        bookRepository.updateName(bookId, name);
 
-        updateAuthors(existingBook, authorsStringList);
-        updateGenres(existingBook, genresStringList);
+        Book book = new Book();
+        book.setId(bookId);
+        book.setName(name);
+        setAuthorsFromString(book, authorsStringList);
+        setGenresFromString(book, genresStringList);
+        bookRepository.updateBook(book);
 
         Optional<Book> updatedBook = bookRepository.findById(bookId);
         if (!updatedBook.isPresent()) {
@@ -117,79 +112,27 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    private void addAuthors(Long bookId, String authorsStringList) throws LibraryException {
-        Set<String> authorsNames = split(authorsStringList);
-        Set<Author> authors = addMissingAuthors(authorsNames);
-        for (Author author : authors) {
-            bookRepository.addAuthor(bookId, author.getId());
-        }
+
+    private void setGenresFromString(Book book, String genresStringList) {
+        book.setGenres(stringToObjects(genresStringList, genreName -> {
+            Genre genre = new Genre();
+            genre.setName(genreName);
+            return genre;
+        }));
     }
 
-    private void addGenres(Long bookId, String genresStringList) throws LibraryException {
-        Set<String> genresNames = split(genresStringList);
-        Set<Genre> genres = addMissingGenres(genresNames);
-        for (Genre genre : genres) {
-            bookRepository.addGenre(bookId, genre.getId());
-        }
+    private void setAuthorsFromString(Book book, String authorsStringList) {
+        book.setAuthors(stringToObjects(authorsStringList, authorName -> {
+            Author author = new Author();
+            author.setName(authorName);
+            return author;
+        }));
     }
 
-    private void updateGenres(Book existingBook, String genresStringList) throws LibraryException {
-        Long bookId = existingBook.getId();
-        Set<String> genresNames = split(genresStringList);
-        Set<Genre> updatedGenres = addMissingGenres(genresNames);
-        Set<Genre> addedGenres = difference(updatedGenres, existingBook.getGenres());
-        Set<Genre> removedGenres = difference(existingBook.getGenres(), updatedGenres);
-        for (Genre addedGenre : addedGenres) {
-            bookRepository.addGenre(bookId, addedGenre.getId());
-        }
-        for (Genre removedGenre : removedGenres) {
-            bookRepository.removeGenre(bookId, removedGenre.getId());
-        }
+    private <T> Set<T> stringToObjects(String stringList, Function<? super String, ? extends T> mapper) {
+        return split(stringList).stream().map(mapper).collect(Collectors.toSet());
     }
 
-    private void updateAuthors(Book existingBook, String authorsStringList) throws LibraryException {
-        Long bookId = existingBook.getId();
-        Set<String> authorsNames = split(authorsStringList);
-        Set<Author> updatedAuthors = addMissingAuthors(authorsNames);
-        Set<Author> addedAuthors = difference(updatedAuthors, existingBook.getAuthors());
-        Set<Author> removedAuthors = difference(existingBook.getAuthors(), updatedAuthors);
-        for (Author addedAuthor : addedAuthors) {
-            bookRepository.addAuthor(bookId, addedAuthor.getId());
-        }
-        for (Author removedAuthor : removedAuthors) {
-            bookRepository.removeAuthor(bookId, removedAuthor.getId());
-        }
-    }
-
-    private Set<Author> addMissingAuthors(Collection<String> authorsNames) throws LibraryException {
-        Set<Author> authors = new HashSet<>();
-        for (String authorName : authorsNames) {
-            Optional<Author> optionalAuthor = authorService.findByName(authorName);
-            Author author;
-            if (!optionalAuthor.isPresent()) {
-                author = authorService.add(authorName);
-            } else {
-                author = optionalAuthor.get();
-            }
-            authors.add(author);
-        }
-        return authors;
-    }
-
-    private Set<Genre> addMissingGenres(Collection<String> genresNames) throws LibraryException {
-        Set<Genre> genres = new HashSet<>();
-        for (String genreName : genresNames) {
-            Optional<Genre> optionalGenre = genreService.findByName(genreName);
-            Genre genre;
-            if (!optionalGenre.isPresent()) {
-                genre = genreService.add(genreName);
-            } else {
-                genre = optionalGenre.get();
-            }
-            genres.add(genre);
-        }
-        return genres;
-    }
 
     private Set<String> split(String list) {
         Set<String> strings;

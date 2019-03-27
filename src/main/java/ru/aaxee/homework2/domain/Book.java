@@ -1,25 +1,23 @@
 package ru.aaxee.homework2.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.Data;
 
+import javax.persistence.*;
 import java.util.Set;
 
-import static java.util.Collections.emptySet;
-
-@Value
-@AllArgsConstructor
+@Entity
+@Data
 public class Book {
 
-    public Book(Long id, String name) {
-        this.id = id;
-        this.name = name;
-        this.authors = emptySet();
-        this.genres = emptySet();
-    }
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    private final Long id;
-    private final String name;
-    private final Set<Author> authors;
-    private final Set<Genre> genres;
+    private String name;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Author> authors;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Genre> genres;
 }

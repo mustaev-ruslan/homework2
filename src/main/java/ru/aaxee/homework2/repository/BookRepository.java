@@ -16,11 +16,7 @@ public interface BookRepository {
 
     Optional<Book> findByName(String name);
 
-    Book addBook(String name);
-
-    void addAuthor(Long bookId, Long authorId);
-
-    void addGenre(Long bookId, Long genreId);
+    void addBook(Book book);
 
     List<Book> findByIds(Set<Long> idSet);
 
@@ -28,9 +24,5 @@ public interface BookRepository {
 
     List<Book> findByGenre(String genre);
 
-    void updateName(Long bookId, String name);
-
-    void removeAuthor(Long bookId, Long authorId);
-
-    void removeGenre(Long bookId, Long genreId);
+    void updateBook(Book book);
 }
