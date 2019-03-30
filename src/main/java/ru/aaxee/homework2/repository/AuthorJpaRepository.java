@@ -1,6 +1,5 @@
 package ru.aaxee.homework2.repository;
 
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.domain.Author;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 
-@Log
 @Repository
 public class AuthorJpaRepository implements AuthorRepository {
 
@@ -26,7 +24,6 @@ public class AuthorJpaRepository implements AuthorRepository {
         Author author = new Author();
         author.setName(name);
         em.persist(author);
-        log.info(author.getId().toString());
     }
 
     @Override
