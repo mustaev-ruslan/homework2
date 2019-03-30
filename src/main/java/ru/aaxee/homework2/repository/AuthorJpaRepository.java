@@ -1,5 +1,6 @@
 package ru.aaxee.homework2.repository;
 
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.domain.Author;
