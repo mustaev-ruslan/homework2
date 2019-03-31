@@ -6,6 +6,7 @@ import ru.aaxee.homework2.domain.Book;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("SpringDataRepositoryMethodParametersInspection")
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByName(String name);

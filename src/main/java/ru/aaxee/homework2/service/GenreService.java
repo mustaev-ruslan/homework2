@@ -2,6 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.domain.Genre;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.GenreRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class GenreService {
 
     private final GenreRepository genreRepository;

@@ -2,6 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.collections.MathSet;
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.domain.Book;
@@ -20,6 +21,7 @@ import static java.util.stream.Collectors.toSet;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -40,6 +42,7 @@ public class BookService {
         return book;
     }
 
+    @Transactional
     public List<Book> find(Long id, String name, String author, String genre) {
         MathSet<Long> idSet = MathSet.all();
 
