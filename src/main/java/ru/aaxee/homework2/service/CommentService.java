@@ -24,8 +24,7 @@ public class CommentService {
         if (optionalBook.isPresent()) {
             Comment comment = new Comment(text);
             comment.setBook(optionalBook.get());
-            commentRepository.addComment(comment);
-            return comment;
+            return commentRepository.save(comment);
         } else {
             throw new LibraryException("Book with id " + id + " not exist");
         }

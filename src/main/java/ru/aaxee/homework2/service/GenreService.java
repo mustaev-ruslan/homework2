@@ -20,7 +20,9 @@ public class GenreService {
         if (existingGenre.isPresent()) {
             throw new LibraryException("Genre with name " + name + " already exist");
         }
-        genreRepository.addGenre(name);
+        Genre genre = new Genre();
+        genre.setName(name);
+        genreRepository.save(genre);
         Optional<Genre> addedGenre = genreRepository.findByName(name);
         if (!addedGenre.isPresent()) {
             throw new LibraryException("Fail to add " + name);
@@ -41,7 +43,7 @@ public class GenreService {
         if (!existingGenre.isPresent()) {
             throw new LibraryException("Genre with id " + id + " not exist");
         }
-        genreRepository.updateGenre(id, name);
+        genreRepository.save(new Genre(id, name));
         Optional<Genre> updatedGenre = genreRepository.findById(id);
         if (!updatedGenre.isPresent()) {
             throw new LibraryException("Fail to update " + existingGenre);

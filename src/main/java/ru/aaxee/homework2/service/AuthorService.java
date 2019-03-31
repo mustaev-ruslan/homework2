@@ -20,7 +20,9 @@ public class AuthorService {
         if (existingAuthor.isPresent()) {
             throw new LibraryException("Author with name " + name + " already exist");
         }
-        authorRepository.addAuthor(name);
+        Author author = new Author();
+        author.setName(name);
+        authorRepository.save(author);
         Optional<Author> addedAuthor = authorRepository.findByName(name);
         if (!addedAuthor.isPresent()) {
             throw new LibraryException("Fail to add " + name);
@@ -41,7 +43,7 @@ public class AuthorService {
         if (!existingAuthor.isPresent()) {
             throw new LibraryException("Author with id " + id + " not exist");
         }
-        authorRepository.updateAuthor(id, name);
+        authorRepository.save(new Author(id, name));
         Optional<Author> updatedAuthor = authorRepository.findById(id);
         if (!updatedAuthor.isPresent()) {
             throw new LibraryException("Fail to update " + existingAuthor);
