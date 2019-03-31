@@ -2,7 +2,7 @@ package ru.aaxee.homework2.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.jdbc.Sql;
 import ru.aaxee.homework2.domain.Author;
@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
-@JdbcTest
+@DataJpaTest
 @ComponentScan
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "classpath:author_testdata.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "classpath:author_clear.sql")
-class AuthorJdbcRepositoryTest {
+class AuthorRepositoryTest {
 
     @Autowired
     AuthorRepository authorRepository;
@@ -26,7 +26,9 @@ class AuthorJdbcRepositoryTest {
     @Test
     void addAuthor() {
         String name = "Author1";
-        authorRepository.addAuthor(name);
+        Author author = new Author();
+        author.setName(name);
+        authorRepository.save(author);
         Optional<Author> optionalAuthor = authorRepository.findByName(name);
         assertThat(optionalAuthor).isNotEmpty();
     }
@@ -47,7 +49,7 @@ class AuthorJdbcRepositoryTest {
     void updateAuthor() {
         Long id = 1L;
         String newName = "New name";
-        authorRepository.updateAuthor(id, newName);
+        authorRepository.save(new Author(id, newName));
         Optional<Author> optionalAuthor = authorRepository.findById(id);
         assertThat(optionalAuthor).isPresent();
         assertThat(optionalAuthor.get().getName()).isEqualTo(newName);
