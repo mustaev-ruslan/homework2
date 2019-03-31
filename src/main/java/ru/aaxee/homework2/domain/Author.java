@@ -1,9 +1,22 @@
 package ru.aaxee.homework2.domain;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
-    private final Long id;
-    private final String name;
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
 }
