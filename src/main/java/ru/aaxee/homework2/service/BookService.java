@@ -2,6 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.collections.MathSet;
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.domain.Book;
@@ -20,6 +21,7 @@ import static java.util.stream.Collectors.toSet;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -36,10 +38,11 @@ public class BookService {
         book.setName(name);
         setAuthorsFromString(book, authorsStringList);
         setGenresFromString(book, genresStringList);
-        bookRepository.addBook(book);
+        bookRepository.save(book);
         return book;
     }
 
+    @Transactional
     public List<Book> find(Long id, String name, String author, String genre) {
         MathSet<Long> idSet = MathSet.all();
 
@@ -62,12 +65,12 @@ public class BookService {
         }
 
         if (author != null && idSet.notEmpty()) {
-            List<Book> booksByAuthor = bookRepository.findByAuthor(author);
+            List<Book> booksByAuthor = bookRepository.findByAuthorsName(author);
             idSet.filter(booksByAuthor.stream().map(Book::getId).collect(toSet()));
         }
 
         if (genre != null && idSet.notEmpty()) {
-            List<Book> booksByGenre = bookRepository.findByGenre(genre);
+            List<Book> booksByGenre = bookRepository.findByGenresName(genre);
             idSet.filter(booksByGenre.stream().map(Book::getId).collect(toSet()));
         }
 
@@ -75,7 +78,7 @@ public class BookService {
         if (idSet.isAll()) {
             books = bookRepository.findAll();
         } else if (idSet.notEmpty()) {
-            books = bookRepository.findByIds(idSet.toSet());
+            books = bookRepository.findAllById(idSet.toSet());
         } else {
             books = emptyList();
         }
@@ -94,7 +97,7 @@ public class BookService {
         book.setName(name);
         setAuthorsFromString(book, authorsStringList);
         setGenresFromString(book, genresStringList);
-        bookRepository.updateBook(book);
+        bookRepository.save(book);
 
         Optional<Book> updatedBook = bookRepository.findById(bookId);
         if (!updatedBook.isPresent()) {

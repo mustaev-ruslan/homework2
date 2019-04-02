@@ -2,8 +2,10 @@ package ru.aaxee.homework2.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.AuthorRepository;
@@ -13,17 +15,16 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+@DataJpaTest
+@ComponentScan
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceTest {
 
-    @Spy
-    FakeAuthorRepository authorRepository;
+    @Autowired
+    AuthorRepository authorRepository;
 
-    @InjectMocks
+    @Autowired
     AuthorService authorService;
 
     @Test
@@ -37,8 +38,8 @@ class AuthorServiceTest {
 
     @Test
     void findById() throws LibraryException {
-        authorService.add("Author1");
-        Optional<Author> optionalAuthor = authorService.findById(1L);
+        Author author = authorService.add("Author1");
+        Optional<Author> optionalAuthor = authorService.findById(author.getId());
         assertThat(optionalAuthor).isPresent();
     }
 
@@ -60,8 +61,8 @@ class AuthorServiceTest {
     @Test
     void update() throws LibraryException {
         String newName = "New name";
-        Long id = 1L;
-        authorService.add("Old name");
+        Author author = authorService.add("Old name");
+        Long id = author.getId();
         authorService.update(id, newName);
         Optional<Author> optionalAuthor = authorService.findById(id);
         assertThat(optionalAuthor).isPresent();

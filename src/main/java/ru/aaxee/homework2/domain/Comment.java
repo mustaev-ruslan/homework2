@@ -11,9 +11,11 @@ import javax.persistence.*;
 public class Comment {
 
     @Id
-    @GeneratedValue
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "text")
     private String text;
 
     @ManyToOne

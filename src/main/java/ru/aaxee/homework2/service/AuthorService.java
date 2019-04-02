@@ -2,6 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.AuthorRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -20,7 +22,9 @@ public class AuthorService {
         if (existingAuthor.isPresent()) {
             throw new LibraryException("Author with name " + name + " already exist");
         }
-        authorRepository.addAuthor(name);
+        Author author = new Author();
+        author.setName(name);
+        authorRepository.save(author);
         Optional<Author> addedAuthor = authorRepository.findByName(name);
         if (!addedAuthor.isPresent()) {
             throw new LibraryException("Fail to add " + name);
@@ -41,7 +45,7 @@ public class AuthorService {
         if (!existingAuthor.isPresent()) {
             throw new LibraryException("Author with id " + id + " not exist");
         }
-        authorRepository.updateAuthor(id, name);
+        authorRepository.save(new Author(id, name));
         Optional<Author> updatedAuthor = authorRepository.findById(id);
         if (!updatedAuthor.isPresent()) {
             throw new LibraryException("Fail to update " + existingAuthor);
