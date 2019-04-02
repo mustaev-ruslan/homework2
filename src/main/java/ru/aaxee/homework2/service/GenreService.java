@@ -2,7 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import ru.aaxee.homework2.domain.Genre;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.GenreRepository;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
+
 public class GenreService {
 
     private final GenreRepository genreRepository;
@@ -32,7 +32,7 @@ public class GenreService {
         return addedGenre.get();
     }
 
-    public Optional<Genre> findById(Long id) {
+    public Optional<Genre> findById(String id) {
         return genreRepository.findById(id);
     }
 
@@ -40,7 +40,7 @@ public class GenreService {
         return genreRepository.findAll();
     }
 
-    public Genre update(Long id, String name) throws LibraryException {
+    public Genre update(String id, String name) throws LibraryException {
         Optional<Genre> existingGenre = genreRepository.findById(id);
         if (!existingGenre.isPresent()) {
             throw new LibraryException("Genre with id " + id + " not exist");
@@ -53,7 +53,7 @@ public class GenreService {
         return updatedGenre.get();
     }
 
-    public void delete(Long id) throws LibraryException {
+    public void delete(String id) throws LibraryException {
         Optional<Genre> existingGenre = genreRepository.findById(id);
         if (!existingGenre.isPresent()) {
             throw new LibraryException("Genre with id " + id + " not exist");

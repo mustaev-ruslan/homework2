@@ -25,7 +25,7 @@ public class GenreShellController {
     }
 
     @ShellMethod("Show genres by id")
-    public Response findGenre(Long id) {
+    public Response findGenre(String id) {
         return Response.of(genreService.findById(id));
     }
 
@@ -35,13 +35,13 @@ public class GenreShellController {
     }
 
     @ShellMethod("Update genre")
-    public Response updateGenre(Long id, String name) throws LibraryException {
+    public Response updateGenre(String id, String name) throws LibraryException {
         Genre genre = genreService.update(id, name);
         return Response.ok("Genre updated: " + genre);
     }
 
     @ShellMethod("Delete genre by id")
-    public Response deleteGenre(Long id) throws LibraryException {
+    public Response deleteGenre(String id) throws LibraryException {
         genreService.delete(id);
         return Response.ok("Genre with id " + id + " deleted");
     }

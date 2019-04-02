@@ -1,11 +1,20 @@
 package ru.aaxee.homework2.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.AuthorRepository;
@@ -16,7 +25,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DataJpaTest
+@DataMongoTest
 @ComponentScan
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceTest {
@@ -26,6 +35,11 @@ class AuthorServiceTest {
 
     @Autowired
     AuthorService authorService;
+
+    @BeforeEach
+    void before() {
+        authorRepository.deleteAll();
+    }
 
     @Test
     void addAndFindByName() throws LibraryException {
@@ -62,7 +76,7 @@ class AuthorServiceTest {
     void update() throws LibraryException {
         String newName = "New name";
         Author author = authorService.add("Old name");
-        Long id = author.getId();
+        String id = author.getId();
         authorService.update(id, newName);
         Optional<Author> optionalAuthor = authorService.findById(id);
         assertThat(optionalAuthor).isPresent();
@@ -71,8 +85,8 @@ class AuthorServiceTest {
 
     @Test
     void delete() throws LibraryException {
-        Long id = 1L;
-        authorService.add("Author1");
+        Author author = authorService.add("Author1");
+        String id = author.getId();
         authorService.delete(id);
         assertThat(authorService.findById(id)).isEmpty();
     }

@@ -25,7 +25,7 @@ public class AuthorShellController {
     }
 
     @ShellMethod("Show authors by id")
-    public Response findAuthor(Long id) {
+    public Response findAuthor(String id) {
         return Response.of(authorService.findById(id));
     }
 
@@ -35,13 +35,13 @@ public class AuthorShellController {
     }
 
     @ShellMethod("Update author")
-    public Response updateAuthor(Long id, String name) throws LibraryException {
+    public Response updateAuthor(String id, String name) throws LibraryException {
         Author author = authorService.update(id, name);
         return Response.ok("Author updated: " + author);
     }
 
     @ShellMethod("Delete author by id")
-    public Response deleteAuthor(Long id) throws LibraryException {
+    public Response deleteAuthor(String id) throws LibraryException {
         authorService.delete(id);
         return Response.ok("Author with id " + id + " deleted");
     }
