@@ -2,7 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import ru.aaxee.homework2.collections.MathSet;
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.domain.Book;
@@ -10,10 +10,13 @@ import ru.aaxee.homework2.domain.Genre;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.BookRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -21,7 +24,7 @@ import static java.util.stream.Collectors.toSet;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
+
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -42,9 +45,9 @@ public class BookService {
         return book;
     }
 
-    @Transactional
-    public List<Book> find(Long id, String name, String author, String genre) {
-        MathSet<Long> idSet = MathSet.all();
+
+    public List<Book> find(String id, String name, String author, String genre) {
+        MathSet<String> idSet = MathSet.all();
 
         if (id != null) {
             Optional<Book> optionalBook = bookRepository.findById(id);
@@ -78,7 +81,7 @@ public class BookService {
         if (idSet.isAll()) {
             books = bookRepository.findAll();
         } else if (idSet.notEmpty()) {
-            books = bookRepository.findAllById(idSet.toSet());
+            books = newArrayList(bookRepository.findAllById(idSet.toSet()));
         } else {
             books = emptyList();
         }
@@ -86,7 +89,7 @@ public class BookService {
         return books;
     }
 
-    public Book update(Long bookId, String name, String authorsStringList, String genresStringList) throws LibraryException {
+    public Book update(String bookId, String name, String authorsStringList, String genresStringList) throws LibraryException {
         Optional<Book> optionalExistingBook = bookRepository.findById(bookId);
         if (!optionalExistingBook.isPresent()) {
             throw new LibraryException("Book with id " + bookId + " not exist");
@@ -106,7 +109,7 @@ public class BookService {
         return updatedBook.get();
     }
 
-    public void delete(Long id) throws LibraryException {
+    public void delete(String id) throws LibraryException {
         Optional<Book> existingBook = bookRepository.findById(id);
         if (!existingBook.isPresent()) {
             throw new LibraryException("Book with id " + id + " not exist");

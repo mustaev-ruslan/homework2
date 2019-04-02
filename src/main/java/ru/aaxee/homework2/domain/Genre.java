@@ -6,17 +6,22 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Genre {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private String id;
 
+    @Field
     @Column(name = "name")
     private String name;
 }

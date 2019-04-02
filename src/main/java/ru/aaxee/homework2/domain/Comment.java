@@ -5,19 +5,25 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document
 @Data
 @NoArgsConstructor
 public class Comment {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private String id;
 
+    @Field
     @Column(name = "text")
     private String text;
 
+    @Field
     @ManyToOne
     @JoinColumn
     private Book book;

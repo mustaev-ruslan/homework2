@@ -2,7 +2,7 @@ package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import ru.aaxee.homework2.domain.Author;
 import ru.aaxee.homework2.exception.LibraryException;
 import ru.aaxee.homework2.repository.AuthorRepository;
@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -32,7 +31,7 @@ public class AuthorService {
         return addedAuthor.get();
     }
 
-    public Optional<Author> findById(Long id) {
+    public Optional<Author> findById(String id) {
         return authorRepository.findById(id);
     }
 
@@ -40,7 +39,7 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author update(Long id, String name) throws LibraryException {
+    public Author update(String id, String name) throws LibraryException {
         Optional<Author> existingAuthor = authorRepository.findById(id);
         if (!existingAuthor.isPresent()) {
             throw new LibraryException("Author with id " + id + " not exist");
@@ -53,7 +52,7 @@ public class AuthorService {
         return updatedAuthor.get();
     }
 
-    public void delete(Long id) throws LibraryException {
+    public void delete(String id) throws LibraryException {
         Optional<Author> existingAuthor = authorRepository.findById(id);
         if (!existingAuthor.isPresent()) {
             throw new LibraryException("Author with id " + id + " not exist");

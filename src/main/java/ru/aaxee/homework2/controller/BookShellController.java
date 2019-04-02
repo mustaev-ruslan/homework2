@@ -31,7 +31,7 @@ public class BookShellController {
 
     @ShellMethod("Show books by query")
     public Response findBooks(
-            @ShellOption(defaultValue = ShellOption.NULL) Long id,
+            @ShellOption(defaultValue = ShellOption.NULL) String id,
             @ShellOption(defaultValue = ShellOption.NULL) String name,
             @ShellOption(defaultValue = ShellOption.NULL) String author,
             @ShellOption(defaultValue = ShellOption.NULL) String genre
@@ -41,7 +41,7 @@ public class BookShellController {
 
     @ShellMethod("Update book")
     public Response updateBook(
-            Long id,
+            String id,
             @ShellOption(defaultValue = ShellOption.NULL) String name,
             @ShellOption(defaultValue = ShellOption.NULL) String authors,
             @ShellOption(defaultValue = ShellOption.NULL) String genres
@@ -51,7 +51,7 @@ public class BookShellController {
     }
 
     @ShellMethod("Delete book by id")
-    public Response deleteBook(Long id) throws LibraryException {
+    public Response deleteBook(String id) throws LibraryException {
         bookService.delete(id);
         return Response.ok("Book with id " + id + " deleted");
     }
