@@ -1,7 +1,13 @@
+context = '/book';
+
 function booksPage() {
-    $.get('/book').done(books => renderBooksPage(books))
+    $.get(context).done(books => renderBooksPage(books))
 }
 
 function bookShowPage(bookId) {
-    $.get('/book/' + bookId).done(book => renderBookShowPage(book));
+    $.get(`${context}/${bookId}`).done(book => renderBookShowPage(book));
+}
+
+function bookDelete(bookId) {
+    $.delete(`${context}/${bookId}`).done(() => booksPage());
 }

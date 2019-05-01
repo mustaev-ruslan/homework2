@@ -32,8 +32,9 @@ public class BookRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) throws LibraryException {
+    public String delete(@PathVariable("id") Long id) throws LibraryException {
         bookService.delete(id);
+        return "ok";
     }
 
     @PostMapping

@@ -22,7 +22,7 @@ function renderBooksPage(books) {
                         <td>
                             <button onclick="bookShowPage(${book.id})">Show book</button>
                             <button id="update-book-button">Update book</button>
-                            <button id="delete-book-button">Delete book</button>
+                            <button onclick="bookDelete(${book.id})">Delete book</button>
                         </td>
                     </tr>
                 `)
