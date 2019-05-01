@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+</head>
+<body>
+<form id="add-book-form" th:action="@{/add}" th:object="${bookDto}" method="post" action="#">
+
+    <div class="row">
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" th:field="*{name}"/>
+    </div>
+
+    <div class="row">
+        <label for="authors">Authors:</label>
+        <input id="authors" name="authors" type="text" th:field="*{authorsListString}"/>
+    </div>
+
+    <div class="row">
+        <label for="genres">Genres:</label>
+        <input id="genres" name="genres" type="text" th:field="*{genresListString}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Add</button>
+    </div>
+</form>
+
+</body>
+</html>

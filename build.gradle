@@ -31,8 +31,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-json'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.6.RELEASE'
-    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile "org.mockito:mockito-junit-jupiter:2.23.0"
 }

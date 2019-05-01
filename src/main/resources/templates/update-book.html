@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+</head>
+<body>
+<form id="update-book-form" th:action="@{/update}" th:object="${bookDto}" method="post" action="#">
+
+    <div class="row">
+        <label for="id">Id:</label>
+        <input id="id" name="id" type="text" readonly="readonly" th:field="*{id}" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" value="Война и мир"
+               th:field="*{name}" th:value="*{name}"/>
+    </div>
+
+    <div class="row">
+        <label for="authors">Authors:</label>
+        <input id="authors" name="authors" type="text" value="Толстой"
+               th:field="*{authorsListString}" th:value="*{authorsListString}"/>
+    </div>
+
+    <div class="row">
+        <label for="genres">Genres:</label>
+        <input id="genres" name="genres" type="text" value="Эпопея,Роман"
+               th:field="*{genresListString}"
+               th:value="*{genresListString}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Update</button>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+
+<body>
+
+<h1>Информация о книге</h1>
+
+<table th:object="${book}">
+    <tr>
+        <td>Id</td>
+        <td th:text="*{id}">1</td>
+    </tr>
+    <tr>
+        <td>Название</td>
+        <td th:text="*{name}">Война м мир</td>
+    </tr>
+    <tr>
+        <td>Авторы</td>
+        <td>
+            <ul th:each="author : ${book.authors}" th:object="${author}">
+                <li th:text="*{name}">Толстой</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Жанры</td>
+        <td>
+            <ul th:each="genre : ${book.genres}" th:object="${genre}">
+                <li th:text="*{name}">Эпопея</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<a href="books.html" th:href="@{/}">К списку книг</a>
+
+</body>
+</html>
