@@ -21,7 +21,7 @@ function bookAdd(bookDto) {
 }
 
 function bookUpdatePage(bookId) {
-    restGet(`${context}/${bookId}`, bookDto => renderBookUpdatePage(bookDto));
+    restGet(`${context}/${bookId}`, book => renderBookUpdatePage(book));
 }
 
 function bookUpdate(bookDto) {

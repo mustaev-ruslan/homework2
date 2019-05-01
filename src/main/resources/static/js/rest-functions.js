@@ -31,3 +31,16 @@ function restPost(url, data, callback) {
         },
     });
 }
+
+function restPut(url, data, callback) {
+    $.ajax({
+        url: url,
+        type: "PUT",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function() {
+            callback()
+        },
+    });
+}
