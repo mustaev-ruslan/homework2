@@ -7,16 +7,7 @@ function renderBookAddPage() {
                             <label for="name">Name:</label>
                             <input id="name" name="name" type="text"/>
                         </div>
-                    
-                        <div class="row">
-                            <label for="authors">Authors:</label>
-                            <input id="authors" name="authorsListString" type="text"/>
-                        </div>
-                    
-                        <div class="row">
-                            <label for="genres">Genres:</label>
-                            <input id="genres" name="genresListString" type="text"/>
-                        </div>
+                   
                   
                     </form>
                     

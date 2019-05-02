@@ -11,28 +11,6 @@ function renderBookShowPage(book) {
                     <td>Название</td>
                     <td>${book.name}</td>
                 </tr>
-                <tr>
-                    <td>Авторы</td>
-                    <td>
-                        <ul id="authors-list">`);
-
-    book.authors.forEach(author => $('#authors-list').append(`<li>${author.name}</li>`));
-
-    $('#page').append(`
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Жанры</td>
-                    <td>
-                        <ul id="genres-list">`);
-
-    book.genres.forEach(genre => $('#genres-list').append(`<li>${genre.name}</li>`));
-
-    $('#page').append(`
-                        </ul>
-                    </td>
-                </tr>
             </table>
             
             <button onclick="booksPage()">К списку книг</button>
