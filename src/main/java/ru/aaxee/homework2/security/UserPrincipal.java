@@ -17,7 +17,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return ImmutableSet.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return ImmutableSet.of(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override
