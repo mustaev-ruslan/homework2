@@ -1,8 +1,8 @@
 function objectifyForm(formArray) {//serialize data function
 
-    let returnArray = {};
+    let returnObject = {};
     for (let i = 0; i < formArray.length; i++){
-        returnArray[formArray[i]['name']] = formArray[i]['value'];
+        returnObject[formArray[i]['name']] = formArray[i]['value'];
     }
-    return returnArray;
+    return returnObject;
 }

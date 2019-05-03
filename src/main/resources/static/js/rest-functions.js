@@ -3,9 +3,7 @@ function restGet(url, callback) {
         url: url,
         type: "GET",
         dataType: "json",
-        success: function(result) {
-            callback(result)
-        },
+        success: callback,
     });
 }
 
@@ -13,9 +11,7 @@ function restDelete(url, callback) {
     $.ajax({
         url: url,
         type: "DELETE",
-        success: function() {
-            callback()
-        },
+        success: callback,
     });
 }
 
@@ -26,9 +22,7 @@ function restPost(url, data, callback) {
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(data),
-        success: function() {
-            callback()
-        },
+        success: callback,
     });
 }
 
@@ -39,8 +33,6 @@ function restPut(url, data, callback) {
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(data),
-        success: function() {
-            callback()
-        },
+        success: callback,
     });
 }

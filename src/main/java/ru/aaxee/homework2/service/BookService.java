@@ -145,4 +145,12 @@ public class BookService {
         }
         return strings;
     }
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
+
+    public Book findById(Long id) throws LibraryException {
+        return bookRepository.findById(id).orElseThrow(() -> new LibraryException("Book not found"));
+    }
 }
