@@ -4,32 +4,22 @@
     <meta charset="UTF-8">
     <title>Books</title>
 </head>
+
 <body>
-
 <h1>Books</h1>
-
-<a href="add-book.html" th:href="@{/add}">Add book</a>
-
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${books}" th:object="${book}">
-        <td th:text="*{id}">1</td>
-        <td th:text="*{name}">John Doe</td>
-        <td>
-            <a href="show-book.html" th:href="@{/show/{id}(id=*{id})}">Show</a>
-            <a href="update-book.html" th:href="@{/update/{id}(id=*{id})}">Edit</a>
-            <a href="books.html" th:href="@{/delete/{id}(id=*{id})}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
+<div id="page"></div>
 </body>
+
+<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/js/rest-functions.js}"></script>
+<script th:src="@{/js/objectify-form.js}"></script>
+<script th:src="@{/js/navigation.js}"></script>
+<script th:src="@{/js/books-page.js}"></script>
+<script th:src="@{/js/book-show-page.js}"></script>
+<script th:src="@{/js/book-add-page.js}"></script>
+<script th:src="@{/js/book-update-page.js}"></script>
+<script>
+    booksPage();
+</script>
+
 </html>
