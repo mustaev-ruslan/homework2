@@ -1,5 +1,6 @@
 package ru.aaxee.homework2.service;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
@@ -30,8 +31,11 @@ public class BookService {
 
     private final SubscribableChannel newBookChannel;
 
+    private final MeterRegistry registry;
+
     public Book add(Book book) {
         Book saved = bookRepository.save(book);
+        registry.counter("books.added").increment();
         newBookChannel.send(MessageBuilder.withPayload(saved).build());
         return saved;
     }
@@ -48,6 +52,7 @@ public class BookService {
         book.setName(name);
         setAuthorsFromString(book, authorsStringList);
         setGenresFromString(book, genresStringList);
+        registry.counter("books.added").increment();
         bookRepository.save(book);
         newBookChannel.send(MessageBuilder.withPayload(book).build());
         return book;
