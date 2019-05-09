@@ -32,13 +32,19 @@ public class Homework2Application {
             bookService.add("лукоморье", "Пушкин,Лермонтов", "Комедия,Трагедия");
             bookService.add("Пес барбос", "Дятлов", "Ужасы");
 
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
+
             User admin = new User();
-            admin.setId(1L);
             admin.setUsername("admin");
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
-            String encode = bCryptPasswordEncoder.encode("password");
-            admin.setPassword(encode);
+            admin.setRole("ROLE_ADMIN");
+            admin.setPassword(encoder.encode("password"));
             userRepository.save(admin);
+
+            User user = new User();
+            user.setUsername("user");
+            user.setRole("ROLE_USER");
+            user.setPassword(encoder.encode("password"));
+            userRepository.save(user);
 
         } catch (LibraryException e) {
             e.printStackTrace();
