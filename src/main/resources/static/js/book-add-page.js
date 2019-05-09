@@ -20,8 +20,12 @@ function renderBookAddPage() {
                   
                     </form>
                     
-                    <button onclick="bookAdd(objectifyForm($('#add-book-form').serializeArray()))"">Add</button>
+                    <button id="book-add-button">Add</button>
                     <button onclick="booksPage()">К списку книг</button>
 
             `);
+
+    $('#book-add-button').click(function () {
+        bookAdd(objectifyForm($('#add-book-form').serializeArray()));
+    })
 }

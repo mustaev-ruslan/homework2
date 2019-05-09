@@ -26,10 +26,14 @@ function renderBookUpdatePage(book) {
                     
                     </form>
                     
-                    <button onclick="bookUpdate(objectifyForm($('#update-book-form').serializeArray()))"">Обновить</button>
+                    <button id="book-update-button">Обновить</button>
                     <button onclick="booksPage()">К списку книг</button>
 
             `);
+
+    $('#book-update-button').click(function () {
+        bookUpdate(objectifyForm($('#update-book-form').serializeArray()))
+    })
 }
 
 function bookToBookDto(book) {
