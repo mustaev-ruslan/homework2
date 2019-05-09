@@ -17,4 +17,9 @@ public class BookMvcController {
     public String booksPage() {
         return "books";
     }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";
+    }
 }
