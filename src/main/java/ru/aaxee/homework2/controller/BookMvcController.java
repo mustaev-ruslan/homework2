@@ -10,6 +10,11 @@ public class BookMvcController {
 
     @GetMapping("/")
     public String mainPage() {
+        return "index";
+    }
+
+    @GetMapping("/books-page")
+    public String booksPage() {
         return "books";
     }
 }
