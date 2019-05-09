@@ -1,6 +1,8 @@
 package ru.aaxee.homework2.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.SubscribableChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.aaxee.homework2.collections.MathSet;
@@ -26,6 +28,14 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
+    private final SubscribableChannel newBookChannel;
+
+    public Book add(Book book) {
+        Book saved = bookRepository.save(book);
+        newBookChannel.send(MessageBuilder.withPayload(saved).build());
+        return saved;
+    }
+
     public Book add(String name, String authorsStringList, String genresStringList) throws LibraryException {
         if (name == null) {
             throw new LibraryException("Name of book is required");
@@ -39,6 +49,7 @@ public class BookService {
         setAuthorsFromString(book, authorsStringList);
         setGenresFromString(book, genresStringList);
         bookRepository.save(book);
+        newBookChannel.send(MessageBuilder.withPayload(book).build());
         return book;
     }
 
