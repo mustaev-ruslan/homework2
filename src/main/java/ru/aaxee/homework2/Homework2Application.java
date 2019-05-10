@@ -3,6 +3,7 @@ package ru.aaxee.homework2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.aaxee.homework2.exception.LibraryException;
@@ -12,6 +13,7 @@ import ru.aaxee.homework2.service.BookService;
 
 import javax.annotation.PostConstruct;
 
+@EnableHystrix
 @EnableTransactionManagement
 @SpringBootApplication
 public class Homework2Application {
